@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento del Tutor Académico</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Ejemplo de observaciones e informes
+        const observaciones = [
+            { id: 1, estudiante: "Juan Pérez", observacion: "Buena actitud y compromiso." },
+            { id: 2, estudiante: "Ana Gómez", observacion: "Debe mejorar en la entrega de informes." }
+        ];
+
+        const informes = [
+            { id: 1, estudiante: "Juan Pérez", titulo: "Informe Semanal 1", evaluacion: "Aprobado" },
+            { id: 2, estudiante: "Ana Gómez", titulo: "Informe Semanal 2", evaluacion: "Pendiente" }
+        ];
+
+        // Función para registrar observaciones
+        function registrarObservacion() {
+            const estudiante = document.getElementById('observacionEstudiante').value;
+            const observacion = document.getElementById('observacionTexto').value;
+
+            if (estudiante && observacion) {
+                observaciones.push({ id: observaciones.length + 1, estudiante, observacion });
+                actualizarTablaObservaciones();
+                alert('Observación registrada exitosamente.');
+                document.getElementById('observacionForm').reset();
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+
+        // Función para mostrar las observaciones en una tabla
+        function actualizarTablaObservaciones() {
+            const tabla = document.getElementById('observacionesTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = '';
+
+            observaciones.forEach(obs => {
+                const fila = tabla.insertRow();
+                fila.insertCell(0).textContent = obs.estudiante;
+                fila.insertCell(1).textContent = obs.observacion;
+            });
+        }
+
+        // Función para evaluar informes
+        function evaluarInforme(id, evaluacion) {
+            const informe = informes.find(inf => inf.id === id);
+            if (informe) {
+                informe.evaluacion = evaluacion;
+                actualizarTablaInformes();
+                alert('Informe evaluado exitosamente.');
+            }
+        }
+
+        // Función para mostrar los informes en una tabla
+        function actualizarTablaInformes() {
+            const tabla = document.getElementById('informesTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = '';
+
+            informes.forEach(inf => {
+                const fila = tabla.insertRow();
+                fila.insertCell(0).textContent = inf.estudiante;
+                fila.insertCell(1).textContent = inf.titulo;
+                fila.insertCell(2).textContent = inf.evaluacion;
+                const celdaEvaluacion = fila.insertCell(3);
+                if (inf.evaluacion === "Pendiente") {
+                    celdaEvaluacion.innerHTML = `
+                        <button onclick="evaluarInforme(${inf.id}, 'Aprobado')">Aprobar</button>
+                        <button onclick="evaluarInforme(${inf.id}, 'Rechazado')">Rechazar</button>
+                    `;
+                }
+            });
+        }
+
+        window.onload = function() {
+            actualizarTablaObservaciones();
+            actualizarTablaInformes();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Seguimiento del Tutor Académico</h1>
+
+        <!-- Registro de Observaciones -->
+        <h2>Registro de Observaciones</h2>
+        <form id="observacionForm">
+            <label for="observacionEstudiante">Estudiante:</label>
+            <input type="text" id="observacionEstudiante" required placeholder="Nombre del estudiante">
+
+            <label for="observacionTexto">Observación:</label>
+            <textarea id="observacionTexto" required placeholder="Escribe una observación..."></textarea>
+
+            <button type="button" onclick="registrarObservacion()">Registrar Observación</button>
+        </form>
+
+        <h2>Observaciones Registradas</h2>
+        <table id="observacionesTabla">
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Observación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las observaciones se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+
+        <!-- Evaluación de Informes de Prácticas -->
+        <h2>Evaluación de Informes de Prácticas</h2>
+        <table id="informesTabla">
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Título del Informe</th>
+                    <th>Evaluación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los informes se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+
+        <!-- Retroalimentación al Estudiante -->
+        <h2>Retroalimentación al Estudiante</h2>
+        <form id="retroalimentacionForm">
+            <label for="retroEstudiante">Estudiante:</label>
+            <input type="text" id="retroEstudiante" required placeholder="Nombre del estudiante">
+
+            <label for="retroTexto">Retroalimentación:</label>
+            <textarea id="retroTexto" required placeholder="Escribe la retroalimentación..."></textarea>
+
+            <button type="button" onclick="alert('Retroalimentación enviada al estudiante.')">Enviar Retroalimentación</button>
+        </form>
+    </div>
+
+    <script src="validaciones.js"></script>
+</body>
+</html>

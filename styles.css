@@ -1,0 +1,140 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+    width: 90%;
+    max-width: 800px; /* Añadido para limitar el ancho máximo */
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Títulos */
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #d9534f; /* Rojo */
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #5cb85c; /* Verde */
+    font-size: 2em;
+}
+
+/* Formularios */
+form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+input[type="date"] {
+    background-color: white;
+    color: #333;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Botones */
+button {
+    background-color: #d9534f; /* Rojo */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%; /* Añadido para hacer botones más amplios */
+}
+
+button:hover {
+    background-color: #c9302c; /* Rojo más oscuro */
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #5cb85c; /* Verde */
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Listas de documentos */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #d9534f; /* Rojo */
+    color: white;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Enlaces */
+a {
+    color: #5cb85c; /* Verde */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empresas y Convenios</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        const empresas = [
+            { id: 1, nombre: "Empresa X", contacto: "contacto@empresax.com", descripcion: "Desarrollo Web - Buscamos un programador centrado en software." },
+            { id: 2, nombre: "Empresa Y", contacto: "contacto@empresay.com", descripcion: "Marketing Digital - Buscamos un especialista en redes sociales." }
+        ];
+
+        const convenios = [
+            { id: 1, empresa: "Empresa X", detalles: "Convenio de prácticas por 6 meses." },
+            { id: 2, empresa: "Empresa Y", detalles: "Convenio de prácticas de verano." }
+        ];
+
+        function registrarEmpresa() {
+            const nombre = document.getElementById('empresaNombre').value;
+            const contacto = document.getElementById('empresaContacto').value;
+            const descripcion = document.getElementById('empresaDescripcion').value;
+
+            if (nombre && contacto && descripcion) {
+                const nuevaEmpresa = {
+                    id: empresas.length + 1,
+                    nombre,
+                    contacto,
+                    descripcion
+                };
+                empresas.push(nuevaEmpresa);
+                actualizarTabla();
+                alert('Empresa registrada exitosamente.');
+                document.getElementById('empresaForm').reset(); // Limpiar el formulario
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+
+        function actualizarTabla() {
+            const tabla = document.getElementById('empresasTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = ''; // Limpiar la tabla actual
+
+            empresas.forEach(empresa => {
+                const fila = tabla.insertRow();
+                fila.onclick = () => seleccionarEmpresa(empresa.id);
+                fila.insertCell(0).textContent = empresa.nombre;
+                fila.insertCell(1).textContent = empresa.contacto;
+                fila.insertCell(2).textContent = empresa.descripcion;
+            });
+        }
+
+        function seleccionarEmpresa(id) {
+            const empresa = empresas.find(emp => emp.id === id);
+            if (empresa) {
+                document.getElementById('empresaNombre').value = empresa.nombre;
+                document.getElementById('empresaContacto').value = empresa.contacto;
+                document.getElementById('empresaDescripcion').value = empresa.descripcion;
+                document.getElementById('registroBtn').innerText = 'Actualizar Empresa';
+                document.getElementById('registroBtn').onclick = () => actualizarEmpresa(id);
+            }
+        }
+
+        function actualizarEmpresa(id) {
+            const nombre = document.getElementById('empresaNombre').value;
+            const contacto = document.getElementById('empresaContacto').value;
+            const descripcion = document.getElementById('empresaDescripcion').value;
+
+            if (nombre && contacto && descripcion) {
+                const empresaIndex = empresas.findIndex(emp => emp.id === id);
+                if (empresaIndex !== -1) {
+                    empresas[empresaIndex] = { id, nombre, contacto, descripcion };
+                    actualizarTabla();
+                    alert('Empresa actualizada exitosamente.');
+                    document.getElementById('empresaForm').reset(); // Limpiar el formulario
+                    document.getElementById('registroBtn').innerText = 'Registrar Empresa';
+                    document.getElementById('registroBtn').onclick = registrarEmpresa;
+                }
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+
+        function registrarConvenio() {
+            const empresaSelect = document.getElementById('convenioEmpresa');
+            const detalles = document.getElementById('convenioDetalles').value;
+
+            if (empresaSelect.value && detalles) {
+                const nuevoConvenio = {
+                    id: convenios.length + 1,
+                    empresa: empresaSelect.value,
+                    detalles
+                };
+                convenios.push(nuevoConvenio);
+                actualizarTablaConvenios();
+                alert('Convenio registrado exitosamente.');
+                document.getElementById('convenioForm').reset(); // Limpiar el formulario
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+
+        function actualizarTablaConvenios() {
+            const tabla = document.getElementById('conveniosTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = ''; // Limpiar la tabla actual
+
+            convenios.forEach(convenio => {
+                const fila = tabla.insertRow();
+                fila.onclick = () => seleccionarConvenio(convenio.id);
+                fila.insertCell(0).textContent = convenio.empresa;
+                fila.insertCell(1).textContent = convenio.detalles;
+            });
+        }
+
+        function seleccionarConvenio(id) {
+            const convenio = convenios.find(conv => conv.id === id);
+            if (convenio) {
+                document.getElementById('convenioDetalles').value = convenio.detalles;
+                document.getElementById('convenioEmpresa').value = convenio.empresa;
+                document.getElementById('registroBtnConvenio').innerText = 'Actualizar Convenio';
+                document.getElementById('registroBtnConvenio').onclick = () => actualizarConvenio(id);
+            }
+        }
+
+        function actualizarConvenio(id) {
+            const empresaSelect = document.getElementById('convenioEmpresa');
+            const detalles = document.getElementById('convenioDetalles').value;
+
+            if (empresaSelect.value && detalles) {
+                const convenioIndex = convenios.findIndex(conv => conv.id === id);
+                if (convenioIndex !== -1) {
+                    convenios[convenioIndex] = { id, empresa: empresaSelect.value, detalles };
+                    actualizarTablaConvenios();
+                    alert('Convenio actualizado exitosamente.');
+                    document.getElementById('convenioForm').reset(); // Limpiar el formulario
+                    document.getElementById('registroBtnConvenio').innerText = 'Registrar Convenio';
+                    document.getElementById('registroBtnConvenio').onclick = registrarConvenio;
+                }
+            } else {
+                alert('Por favor, completa todos los campos.');
+            }
+        }
+
+        window.onload = function() {
+            actualizarTabla();
+            actualizarTablaConvenios();
+        }; // Llenar las tablas al cargar la página
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Empresas y Convenios</h1>
+
+        <!-- Formulario de registro de empresa -->
+        <form id="empresaForm">
+            <label for="empresaNombre">Nombre de la Empresa:</label>
+            <input type="text" id="empresaNombre" required>
+
+            <label for="empresaContacto">Contacto:</label>
+            <input type="text" id="empresaContacto" required>
+
+            <label for="empresaDescripcion">Descripción de la Pasantía:</label>
+            <textarea id="empresaDescripcion" required placeholder="Descripción de la pasantía"></textarea>
+
+            <button type="button" id="registroBtn" onclick="registrarEmpresa()">Registrar Empresa</button>
+        </form>
+
+        <h2>Empresas Registradas</h2>
+        <table id="empresasTabla">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas de empresas se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+
+        <h2>Gestión de Convenios</h2>
+        <form id="convenioForm">
+            <label for="convenioEmpresa">Selecciona la Empresa:</label>
+            <select id="convenioEmpresa" required>
+                <option value="">Selecciona una empresa</option>
+                <option value="Empresa X">Empresa X</option>
+                <option value="Empresa Y">Empresa Y</option>
+                <!-- Puedes agregar más opciones aquí -->
+            </select>
+
+            <label for="convenioDetalles">Detalles del Convenio:</label>
+            <textarea id="convenioDetalles" required placeholder="Actualice los datos del convenio"></textarea>
+
+            <button type="button" id="registroBtnConvenio" onclick="registrarConvenio()">Actualizar Convenio</button>
+        </form>
+    </div>
+    <script src="validaciones.js"></script>
+</body>
+</html>

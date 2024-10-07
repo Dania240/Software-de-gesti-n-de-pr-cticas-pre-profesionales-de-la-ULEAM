@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postulación a Prácticas</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        const ofertas = [
+            { empresa: "Empresa X", descripcion: "Desarrollo Web - Buscamos un programador centrado en software." },
+            { empresa: "Empresa Y", descripcion: "Marketing Digital - Buscamos un especialista en redes sociales." }
+            // Puedes agregar más ofertas aquí
+        ];
+
+        function buscarOfertas() {
+            const busqueda = document.getElementById('busqueda').value.toLowerCase();
+            const tabla = document.getElementById('ofertasTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = ''; // Limpiar la tabla actual
+
+            ofertas.forEach(oferta => {
+                if (oferta.empresa.toLowerCase().includes(busqueda)) {
+                    const fila = tabla.insertRow();
+                    const celdaEmpresa = fila.insertCell(0);
+                    const celdaDescripcion = fila.insertCell(1);
+                    const celdaBoton = fila.insertCell(2);
+
+                    celdaEmpresa.textContent = oferta.empresa;
+                    celdaDescripcion.textContent = oferta.descripcion;
+                    celdaBoton.innerHTML = '<button onclick="mostrarDetalles(\'' + oferta.empresa + '\')">Postular</button>';
+                    fila.onclick = () => mostrarDetalles(oferta.empresa);
+                }
+            });
+
+            // Si no hay resultados, mostrar un mensaje
+            if (tabla.rows.length === 0) {
+                const fila = tabla.insertRow();
+                const celda = fila.insertCell(0);
+                celda.colSpan = 3;
+                celda.textContent = 'No se encontraron ofertas que coincidan con la búsqueda.';
+                celda.style.textAlign = 'center';
+            }
+        }
+
+        function mostrarDetalles(practica) {
+            const detalles = {
+                "Empresa X": {
+                    requisitos: "Conocimientos en HTML, CSS y JavaScript.",
+                    fechas: "Desde el 1 de noviembre hasta el 30 de diciembre.",
+                    duracion: "2 meses."
+                },
+                "Empresa Y": {
+                    requisitos: "Manejo de redes sociales y marketing digital.",
+                    fechas: "Desde el 15 de noviembre hasta el 15 de enero.",
+                    duracion: "2 meses."
+                }
+                // Puedes agregar más empresas y sus detalles aquí
+            };
+
+            const info = detalles[practica] || {};
+            document.getElementById('requisitos').innerText = info.requisitos || 'No disponible';
+            document.getElementById('fechas').innerText = info.fechas || 'No disponible';
+            document.getElementById('duracion').innerText = info.duracion || 'No disponible';
+            document.getElementById('detalles').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Postulación a Prácticas</h1>
+
+        <!-- Campo de búsqueda -->
+        <label for="busqueda">Buscar Ofertas de Prácticas:</label>
+        <input type="text" id="busqueda" placeholder="Ingresa el nombre de la empresa...">
+
+        <!-- Botón de búsqueda debajo de la barra de búsqueda -->
+        <button onclick="buscarOfertas()">Buscar</button>
+
+        <h2>Ofertas Disponibles</h2>
+
+        <table id="ofertasTabla">
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>Descripción</th>
+                    <th>Postular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas de ofertas se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+
+        <!-- Detalles de la práctica seleccionada -->
+        <div id="detalles" style="display:none; margin-top: 20px;">
+            <h3>Detalles de la Práctica</h3>
+            <p><strong>Requisitos:</strong> <span id="requisitos"></span></p>
+            <p><strong>Fechas:</strong> <span id="fechas"></span></p>
+            <p><strong>Duración:</strong> <span id="duracion"></span></p>
+        </div>
+    </div>
+
+    <script src="validaciones.js"></script>
+</body>
+</html>

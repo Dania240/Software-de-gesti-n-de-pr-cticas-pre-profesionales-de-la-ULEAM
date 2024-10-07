@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reportes</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script>
+        const reportes = [
+            { fecha: "2024-10-01", empresa: "Empresa X", carrera: "Ingeniería en Software", estudiantes: 5 },
+            { fecha: "2024-10-02", empresa: "Empresa Y", carrera: "Marketing Digital", estudiantes: 3 },
+        ];
+
+        function filtrarReportes() {
+            const fechaDesde = document.getElementById('fechaDesde').value;
+            const fechaHasta = document.getElementById('fechaHasta').value;
+            const empresa = document.getElementById('empresaFiltro').value;
+            const carrera = document.getElementById('carreraFiltro').value;
+
+            const tabla = document.getElementById('reportesTabla').getElementsByTagName('tbody')[0];
+            tabla.innerHTML = '';
+
+            reportes.forEach(reporte => {
+                const cumpleFecha = (!fechaDesde || new Date(reporte.fecha) >= new Date(fechaDesde)) &&
+                                    (!fechaHasta || new Date(reporte.fecha) <= new Date(fechaHasta));
+                const cumpleEmpresa = !empresa || reporte.empresa === empresa;
+                const cumpleCarrera = !carrera || reporte.carrera === carrera;
+
+                if (cumpleFecha && cumpleEmpresa && cumpleCarrera) {
+                    const fila = tabla.insertRow();
+                    fila.insertCell(0).textContent = reporte.fecha;
+                    fila.insertCell(1).textContent = reporte.empresa;
+                    fila.insertCell(2).textContent = reporte.carrera;
+                    fila.insertCell(3).textContent = reporte.estudiantes;
+                }
+            });
+        }
+
+        function exportarExcel() {
+            const tabla = document.getElementById('reportesTabla');
+            const workbook = XLSX.utils.table_to_book(tabla, { sheet: "Reportes" });
+            XLSX.writeFile(workbook, "reportes.xlsx");
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text("Reporte de Prácticas", 10, 10);
+            doc.autoTable({ html: '#reportesTabla' });
+            doc.save('reportes.pdf');
+        }
+
+        window.onload = filtrarReportes;
+    </script>
+    <style>
+        /* Estilo adicional para separar los botones */
+        .export-buttons {
+            margin-top: 20px;
+        }
+
+        .export-buttons button {
+            margin-right: 10px; /* Espacio entre los botones */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Reportes</h1>
+
+        <!-- Filtros de Búsqueda -->
+        <h2>Filtros de Búsqueda</h2>
+        <form id="filtroForm">
+            <label for="fechaDesde">Fecha Desde:</label>
+            <input type="date" id="fechaDesde">
+
+            <label for="fechaHasta">Fecha Hasta:</label>
+            <input type="date" id="fechaHasta">
+
+            <label for="empresaFiltro">Empresa:</label>
+            <select id="empresaFiltro">
+                <option value="">Todas las empresas</option>
+                <option value="Empresa X">Empresa X</option>
+                <option value="Empresa Y">Empresa Y</option>
+            </select>
+
+            <label for="carreraFiltro">Carrera:</label>
+            <select id="carreraFiltro">
+                <option value="">Todas las carreras</option>
+                <option value="Ingeniería en Software">Ingeniería en Software</option>
+                <option value="Marketing Digital">Marketing Digital</option>
+            </select>
+
+            <button type="button" onclick="filtrarReportes()">Filtrar</button>
+        </form>
+
+        <!-- Tabla de Resultados -->
+        <h2>Resultados de Reportes</h2>
+        <table id="reportesTabla">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Empresa</th>
+                    <th>Carrera</th>
+                    <th>Estudiantes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas de reportes se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+
+        <!-- Botones para Exportar -->
+        <div class="export-buttons">
+            <button onclick="exportarExcel()">Exportar a Excel</button>
+            <button onclick="exportarPDF()">Exportar a PDF</button>
+        </div>
+    </div>
+
+    <script src="validaciones.js"></script>
+</body>
+</html>
