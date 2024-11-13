@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interfaces>
+    <pagina>
+        <titulo>Inicio - Gestión de Prácticas</titulo>
+        <formulario id="loginForm">
+            <campo>
+                <etiqueta>Usuario</etiqueta>
+                <tipo>text</tipo>
+                <id>username</id>
+                <requerido>true</requerido>
+            </campo>
+            <campo>
+                <etiqueta>Contraseña</etiqueta>
+                <tipo>password</tipo>
+                <id>password</id>
+                <requerido>true</requerido>
+            </campo>
+            <boton>Iniciar Sesión</boton>
+        </formulario>
+    </pagina>
+</interfaces>
