@@ -1,0 +1,26 @@
+{
+    "interfaces": [
+      {
+        "pagina": "Inicio - Gestión de Prácticas",
+        "formulario": {
+          "id": "loginForm",
+          "campos": [
+            {
+              "etiqueta": "Usuario",
+              "tipo": "text",
+              "id": "username",
+              "requerido": true
+            },
+            {
+              "etiqueta": "Contraseña",
+              "tipo": "password",
+              "id": "password",
+              "requerido": true
+            }
+          ],
+          "boton": "Iniciar Sesión"
+        }
+      }
+    ]
+  }
+  
